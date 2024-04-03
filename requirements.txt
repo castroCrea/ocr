@@ -3,3 +3,6 @@ torch
 image
 requests
 timm
+load_dotenv
+roboflow
+datasets
