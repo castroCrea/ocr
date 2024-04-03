@@ -1,0 +1,5 @@
+transformers
+torch
+image
+requests
+timm
