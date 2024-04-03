@@ -6,3 +6,5 @@ timm
 load_dotenv
 roboflow
 datasets
+pycocotools
+torchvision

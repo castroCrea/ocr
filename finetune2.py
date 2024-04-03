@@ -1,6 +1,19 @@
 # https://huggingface.co/docs/transformers/v4.28.1/tasks/object_detection
 
+import albumentations
+import numpy as np
+from huggingface_hub import login, notebook_login
+
 from datasets import load_dataset
+from tqdm import tqdm
+from transformers import AutoModelForObjectDetection
+from transformers import AutoImageProcessor
+from transformers import TrainingArguments
+from transformers import Trainer
+from transformers import AutoImageProcessor
+
+login(token='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')
+notebook_login()
 
 DATASET = 'cppe-5'
 
@@ -15,8 +28,6 @@ cppe5 = load_dataset(DATASET)
 print(cppe5)
 print(cppe5["train"][0])
 
-from transformers import AutoImageProcessor
-
 checkpoint = "facebook/detr-resnet-50"
 image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 categories = cppe5["train"].features["objects"].feature["category"].names
@@ -24,14 +35,15 @@ annotations = cppe5["train"][0]["objects"]
 id2label = {index: x for index, x in enumerate(categories, start=0)}
 label2id = {v: k for k, v in id2label.items()}
 
+# visualize an example in the dataset.
+# image = cppe5["train"][0]["image"]
+
+
 remove_idx = [590, 821, 822, 875, 876, 878, 879]
 keep = [i for i in range(len(cppe5["train"])) if i not in remove_idx]
 cppe5["train"] = cppe5["train"].select(keep)
 
-
-import albumentations
-import numpy as np
-import torch
+# Preprocess the data
 
 transform = albumentations.Compose(
     [
@@ -42,6 +54,7 @@ transform = albumentations.Compose(
     bbox_params=albumentations.BboxParams(format="coco", label_fields=["category"]),
 )
 
+# transforming a batch
 def formatted_anns(image_id, category, area, bbox):
     annotations = []
     for i in range(0, len(category)):
@@ -56,7 +69,6 @@ def formatted_anns(image_id, category, area, bbox):
 
     return annotations
 
-# transforming a batch
 def transform_aug_ann(examples):
     image_ids = examples["image_id"]
     images, bboxes, area, categories = [], [], [], []
@@ -79,6 +91,8 @@ def transform_aug_ann(examples):
 # 
 cppe5["train"] = cppe5["train"].with_transform(transform_aug_ann)
 
+print(cppe5["train"][15])
+
 def collate_fn(batch):
     pixel_values = [item["pixel_values"] for item in batch]
     encoding = image_processor.pad(pixel_values, return_tensors="pt")
@@ -89,10 +103,7 @@ def collate_fn(batch):
     batch["labels"] = labels
     return batch
 
-from transformers import AutoModelForObjectDetection
-
-print(categories)
-
+# Training the DETR model
 model = AutoModelForObjectDetection.from_pretrained(
     checkpoint,
     id2label=id2label,
@@ -100,10 +111,8 @@ model = AutoModelForObjectDetection.from_pretrained(
     ignore_mismatched_sizes=True,
 )
 
-from transformers import TrainingArguments
-
 training_args = TrainingArguments(
-    output_dir="./detr-resnet-50_finetuned_cppe5",
+    output_dir="detr-resnet-50_finetuned_cppe5",
     per_device_train_batch_size=8,
     num_train_epochs=10,
     fp16=False,
@@ -113,10 +122,8 @@ training_args = TrainingArguments(
     weight_decay=1e-4,
     save_total_limit=2,
     remove_unused_columns=False,
-    push_to_hub=False,
+    push_to_hub=True,
 )
-
-from transformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -127,5 +134,4 @@ trainer = Trainer(
 )
 
 trainer.train()
-
-# trainer.push_to_hub()
+trainer.push_to_hub()
