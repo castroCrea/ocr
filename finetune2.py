@@ -2,17 +2,17 @@
 
 import albumentations
 import numpy as np
+import os
 from huggingface_hub import login, notebook_login
 
 from datasets import load_dataset
-from tqdm import tqdm
-from transformers import AutoModelForObjectDetection
-from transformers import AutoImageProcessor
-from transformers import TrainingArguments
-from transformers import Trainer
-from transformers import AutoImageProcessor
+from transformers import AutoModelForObjectDetection, AutoImageProcessor, TrainingArguments, Trainer, AutoImageProcessor
+from dotenv import load_dotenv
 
-login(token='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')
+load_dotenv()
+
+HUGGING_FACE_TOKEN = os.environ.get("HUGGING_FACE_TOKEN")
+login(token=HUGGING_FACE_TOKEN)
 notebook_login()
 
 DATASET = 'cppe-5'
@@ -109,12 +109,13 @@ model = AutoModelForObjectDetection.from_pretrained(
     id2label=id2label,
     label2id=label2id,
     ignore_mismatched_sizes=True,
+    revision="no_timm",
 )
 
 training_args = TrainingArguments(
     output_dir="detr-resnet-50_finetuned_cppe5",
     per_device_train_batch_size=8,
-    num_train_epochs=10,
+    num_train_epochs=100,
     fp16=False,
     save_steps=200,
     logging_steps=50,

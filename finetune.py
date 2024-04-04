@@ -1,24 +1,30 @@
 # https://huggingface.co/docs/transformers/v4.28.1/tasks/object_detection
-
-from datasets import load_dataset
 import os
+import albumentations
+import numpy as np
+import torch
+import json
+import torchvision
+import evaluate
 
+from tqdm import tqdm
+from datasets import load_dataset
+from transformers import AutoImageProcessor, AutoModelForObjectDetection, TrainingArguments, Trainer, AutoImageProcessor
+from dotenv import load_dotenv
+from huggingface_hub import login, notebook_login
+
+load_dotenv()
+
+HUGGING_FACE_TOKEN = os.environ.get("HUGGING_FACE_TOKEN")
+login(token=HUGGING_FACE_TOKEN)
+notebook_login()
+
+MODEL_NAME = 'detr-resnet-50_finetuned_cppe5_3'
 DATASET = 'cppe-5'
-
 FOLDER_PATH = './dataset/' + DATASET
-
-# if(os.path.isdir(FOLDER_PATH)):
-#   cppe5 = load_dataset(FOLDER_PATH)
-# else :
-cppe5 = load_dataset(DATASET)
-  # cppe5.save_to_disk(FOLDER_PATH)
-
-print(cppe5)
-print(cppe5["train"][0])
-
-from transformers import AutoImageProcessor
-
 checkpoint = "facebook/detr-resnet-50"
+
+cppe5 = load_dataset(DATASET)
 image_processor = AutoImageProcessor.from_pretrained(checkpoint)
 categories = cppe5["train"].features["objects"].feature["category"].names
 annotations = cppe5["train"][0]["objects"]
@@ -29,10 +35,6 @@ remove_idx = [590, 821, 822, 875, 876, 878, 879]
 keep = [i for i in range(len(cppe5["train"])) if i not in remove_idx]
 cppe5["train"] = cppe5["train"].select(keep)
 
-
-import albumentations
-import numpy as np
-import torch
 
 transform = albumentations.Compose(
     [
@@ -90,7 +92,6 @@ def collate_fn(batch):
     batch["labels"] = labels
     return batch
 
-from transformers import AutoModelForObjectDetection
 
 print(categories)
 
@@ -99,14 +100,14 @@ model = AutoModelForObjectDetection.from_pretrained(
     id2label=id2label,
     label2id=label2id,
     ignore_mismatched_sizes=True,
+    revision="no_timm",
 )
 
-from transformers import TrainingArguments
 
 training_args = TrainingArguments(
-    output_dir="./models/detr-resnet-50_finetuned_cppe5_2",
+    output_dir="./models/" + MODEL_NAME,
     per_device_train_batch_size=8,
-    num_train_epochs=10,
+    num_train_epochs=100,
     fp16=False,
     save_steps=200,
     logging_steps=50,
@@ -117,7 +118,6 @@ training_args = TrainingArguments(
     push_to_hub=False,
 )
 
-from transformers import Trainer
 
 trainer = Trainer(
     model=model,
@@ -130,9 +130,6 @@ trainer = Trainer(
 trainer.train()
 
 # trainer.push_to_hub()
-
-import json
-
 
 # format annotations the same as for training, no need for data augmentation
 def val_formatted_anns(image_id, objects):
@@ -185,9 +182,6 @@ def save_cppe5_annotation_file_images(cppe5):
 
     return path_output_cppe5, path_anno
 
-import torchvision
-from transformers import AutoImageProcessor
-
 
 class CocoDetection(torchvision.datasets.CocoDetection):
     def __init__(self, img_folder, feature_extractor, ann_file):
@@ -209,24 +203,24 @@ class CocoDetection(torchvision.datasets.CocoDetection):
         return {"pixel_values": pixel_values, "labels": target}
 
 
-im_processor = AutoImageProcessor.from_pretrained("./models/detr-resnet-50_finetuned_cppe5/checkpoint-1200/")
+image_processor = AutoImageProcessor.from_pretrained("./models/" + MODEL_NAME + "/checkpoint-1200/")
 
 path_output_cppe5, path_anno = save_cppe5_annotation_file_images(cppe5["test"])
-test_ds_coco_format = CocoDetection(path_output_cppe5, im_processor, path_anno)
+test_ds_coco_format = CocoDetection(path_output_cppe5, image_processor, path_anno)
 
-import evaluate
-from tqdm import tqdm
-
-model = AutoModelForObjectDetection.from_pretrained("./models/detr-resnet-50_finetuned_cppe5/checkpoint-1200/")
+model = AutoModelForObjectDetection.from_pretrained("./models/" + MODEL_NAME + "/checkpoint-1200/")
 module = evaluate.load("ybelkada/cocoevaluate", coco=test_ds_coco_format.coco)
 val_dataloader = torch.utils.data.DataLoader(
     test_ds_coco_format, batch_size=8, shuffle=False, num_workers=4, collate_fn=collate_fn
 )
 
+device = torch.device("cuda") if torch.cuda.is_available() else "cpu"
+model.to(device)
+
 with torch.no_grad():
     for idx, batch in enumerate(tqdm(val_dataloader)):
-        pixel_values = batch["pixel_values"]
-        pixel_mask = batch["pixel_mask"]
+        pixel_values = batch["pixel_values"].to(device)
+        pixel_mask = batch["pixel_mask"].to(device)
 
         labels = [
             {k: v for k, v in t.items()} for t in batch["labels"]
@@ -236,7 +230,7 @@ with torch.no_grad():
         outputs = model(pixel_values=pixel_values, pixel_mask=pixel_mask)
 
         orig_target_sizes = torch.stack([target["orig_size"] for target in labels], dim=0)
-        results = im_processor.post_process(outputs, orig_target_sizes)  # convert outputs of model to COCO api
+        results = image_processor.post_process_object_detection(outputs, threshold=0, target_sizes=orig_target_sizes)  
 
         module.add(prediction=results, reference=labels)
         del batch

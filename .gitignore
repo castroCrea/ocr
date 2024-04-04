@@ -708,3 +708,9 @@ dataset/Véhicule modèle export/valid/Ferrari-recherche_jpeg.rf.5478524d69dfcd3
 dataset/Véhicule modèle export/valid/Ve-hicule-en-fore-t_jpg.rf.1f6a409ad959ca5aed1874a521a7625a.jpg
 dataset/cppe5/cppe5_ann.json
 __pycache__/uri_validator.cpython-311.pyc
+models/detr-resnet-50_finetuned_cppe5_3/checkpoint-200/config.json
+models/detr-resnet-50_finetuned_cppe5_3/checkpoint-200/optimizer.pt
+models/detr-resnet-50_finetuned_cppe5_3/checkpoint-200/preprocessor_config.json
+models/detr-resnet-50_finetuned_cppe5_3/checkpoint-200/rng_state.pth
+models/detr-resnet-50_finetuned_cppe5_3/checkpoint-200/scheduler.pt
+models/detr-resnet-50_finetuned_cppe5_3/checkpoint-200/trainer_state.json

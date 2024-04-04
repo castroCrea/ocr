@@ -1,12 +1,17 @@
 # Generate a uniq image depending on a word
 
-# install
+## TODO
+
+Make fine tune model `facebook/detr-resnet-50` of image detection work. Train with COCO image models example from hugging face do not work. 
+https://github.com/huggingface/transformers/issues/29964
+
+## install
 
 ```bash 
 pip install -r requirements.txt
 ```
 
-# Transformers
+## Transformers
 
 If you want to save a model locally 
 ```python
@@ -28,7 +33,6 @@ pip install timm
 processor = DetrImageProcessor.from_pretrained("./models/detr-resnet-50", local_files_only=True)
 model = DetrForObjectDetection.from_pretrained("./models/detr-resnet-50", local_files_only=True)
 ```
-
 
 ## COCO
 
