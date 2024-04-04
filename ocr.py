@@ -25,8 +25,12 @@ else:
   image = Image.open(input_path_or_url)
 
 # you can specify the revision tag if you don't want the timm dependency
+  
 processor = DetrImageProcessor.from_pretrained("./models/detr-resnet-50", local_files_only=True, revision="no_timm")
 model = DetrForObjectDetection.from_pretrained("./models/detr-resnet-50", local_files_only=True, revision="no_timm")
+# My fine tune is not working
+# processor = DetrImageProcessor.from_pretrained("./models/detr-resnet-50_finetuned_cppe5_3/checkpoint-12200", local_files_only=True, revision="no_timm")
+# model = DetrForObjectDetection.from_pretrained("./models/detr-resnet-50_finetuned_cppe5_3/checkpoint-12200", local_files_only=True, revision="no_timm")
 
 inputs = processor(images=image, return_tensors="pt")
 outputs = model(**inputs)

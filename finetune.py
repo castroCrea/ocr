@@ -115,7 +115,7 @@ training_args = TrainingArguments(
     weight_decay=1e-4,
     save_total_limit=2,
     remove_unused_columns=False,
-    push_to_hub=False,
+    push_to_hub=True,
 )
 
 
@@ -129,7 +129,7 @@ trainer = Trainer(
 
 trainer.train()
 
-# trainer.push_to_hub()
+trainer.push_to_hub()
 
 # format annotations the same as for training, no need for data augmentation
 def val_formatted_anns(image_id, objects):
