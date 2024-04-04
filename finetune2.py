@@ -19,11 +19,7 @@ DATASET = 'cppe-5'
 
 FOLDER_PATH = './dataset/' + DATASET
 
-# if(os.path.isdir(FOLDER_PATH)):
-#   cppe5 = load_dataset(FOLDER_PATH)
-# else :
 cppe5 = load_dataset(DATASET)
-  # cppe5.save_to_disk(FOLDER_PATH)
 
 print(cppe5)
 print(cppe5["train"][0])
@@ -34,10 +30,6 @@ categories = cppe5["train"].features["objects"].feature["category"].names
 annotations = cppe5["train"][0]["objects"]
 id2label = {index: x for index, x in enumerate(categories, start=0)}
 label2id = {v: k for k, v in id2label.items()}
-
-# visualize an example in the dataset.
-# image = cppe5["train"][0]["image"]
-
 
 remove_idx = [590, 821, 822, 875, 876, 878, 879]
 keep = [i for i in range(len(cppe5["train"])) if i not in remove_idx]
