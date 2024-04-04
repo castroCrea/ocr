@@ -663,3 +663,48 @@ models/detr-resnet-50_finetuned_cppe5_2/checkpoint-1200/preprocessor_config.json
 models/detr-resnet-50_finetuned_cppe5_2/checkpoint-1200/rng_state.pth
 models/detr-resnet-50_finetuned_cppe5_2/checkpoint-1200/scheduler.pt
 models/detr-resnet-50_finetuned_cppe5_2/checkpoint-1200/trainer_state.json
+dataset/Véhicule modèle export/README.dataset.txt
+dataset/Véhicule modèle export/README.roboflow.txt
+dataset/Véhicule modèle export/test/_annotations.coco.json
+dataset/Véhicule modèle export/test/Ferrari-F12-Berlinetta-illustration_jpg.rf.9426901f6b6a41cc040a1994206a8b99.jpg
+dataset/Véhicule modèle export/test/Vue-du-ciel-ve-hicule-fore-t_jpg.rf.79a28071be7ca7c93095c750f93f929d.jpg
+dataset/Véhicule modèle export/train/_annotations.coco.json
+dataset/Véhicule modèle export/train/Ferrari-3_jpg.rf.0e6492f005e757a8e2ed5b93da89c692.jpg
+dataset/Véhicule modèle export/train/Ferrari-3_jpg.rf.7a8b2b794ffbca3f6424ef10ae3b45cd.jpg
+dataset/Véhicule modèle export/train/Ferrari-3_jpg.rf.daee62b99a6e9687161ce7b2a4182020.jpg
+dataset/Véhicule modèle export/train/Ferrari-1519250484_jpg.rf.996a1de28ccf52cac8480fcc96342429.jpg
+dataset/Véhicule modèle export/train/Ferrari-1519250484_jpg.rf.1721a84bedbb932f560d621db4f92665.jpg
+dataset/Véhicule modèle export/train/Ferrari-1519250484_jpg.rf.d9f0939912c9ab4dca30d26dc009ce2e.jpg
+dataset/Véhicule modèle export/train/Ferrari-IMG-7291_jpg.rf.2beae4086f8f7631b2f84f7e7f98fb8a.jpg
+dataset/Véhicule modèle export/train/Ferrari-IMG-7291_jpg.rf.3ab2360a5b776e69d09c5174a175eee8.jpg
+dataset/Véhicule modèle export/train/Ferrari-IMG-7291_jpg.rf.e27ed4997a1a31ecec7348b6cdc871d6.jpg
+dataset/Véhicule modèle export/train/Ferrari-Portofino-1_jpg.rf.a68f459ea5a461f7b5e0f6e0e1386663.jpg
+dataset/Véhicule modèle export/train/Ferrari-Portofino-1_jpg.rf.ea9ec1c9716e437b66d7b95e0f005a14.jpg
+dataset/Véhicule modèle export/train/Ferrari-Portofino-1_jpg.rf.f63ededb11694815bd349c75eb203d8b.jpg
+dataset/Véhicule modèle export/train/Ferrari-te-le-chargement_jpeg.rf.7b9f725fd33d43a196261a015aa44716.jpg
+dataset/Véhicule modèle export/train/Ferrari-te-le-chargement_jpeg.rf.195b9fbd3c5e68e7a15a80e1e7b8ac1b.jpg
+dataset/Véhicule modèle export/train/Ferrari-te-le-chargement_jpeg.rf.f01bc36849fc287ba75fb1f418c5b0c1.jpg
+dataset/Véhicule modèle export/train/Panther-Tank_webp.rf.3a60b4e5cd1ada91be2cb14461d9adaa.jpg
+dataset/Véhicule modèle export/train/Panther-Tank_webp.rf.b3ddf5e0541f89277c01c96e257da758.jpg
+dataset/Véhicule modèle export/train/Panther-Tank_webp.rf.f59733d79c2f95d1add25d462c08e400.jpg
+dataset/Véhicule modèle export/train/Stage-pilotage-Ferrari-F8-Tributo_jpg.rf.9b877ed1a6718e9636724dd26a83ffc1.jpg
+dataset/Véhicule modèle export/train/Stage-pilotage-Ferrari-F8-Tributo_jpg.rf.98dfeb1dcf3522a5aae92253e18dabd7.jpg
+dataset/Véhicule modèle export/train/Stage-pilotage-Ferrari-F8-Tributo_jpg.rf.4594afcd0cf5dd28443a63f8cd804651.jpg
+dataset/Véhicule modèle export/train/Vehicle-in-Forest-View_jpg.rf.1ce1ca2632421803e59942279009f8be.jpg
+dataset/Véhicule modèle export/train/Vehicle-in-Forest-View_jpg.rf.07d55fe37c8cb32930faf1ef498a5402.jpg
+dataset/Véhicule modèle export/train/Vehicle-in-Forest-View_jpg.rf.06846279130fe5f64e34f167c5fd0db1.jpg
+dataset/Véhicule modèle export/train/Vehicule-in-forest_jpg.rf.038da22125b9107230d432a838f2bf69.jpg
+dataset/Véhicule modèle export/train/Vehicule-in-forest_jpg.rf.6706f0a724787cfd2fe8ed1e1f7bd4ad.jpg
+dataset/Véhicule modèle export/train/Vehicule-in-forest_jpg.rf.a1640ffab5fe333e6e4ca67a34dd69bd.jpg
+dataset/Véhicule modèle export/train/Vehicule-in-forest-1-_jpg.rf.3c63be39a566883870c5bd083781b22e.jpg
+dataset/Véhicule modèle export/train/Vehicule-in-forest-1-_jpg.rf.974f5d0ec8d468c9f0325bff65034e23.jpg
+dataset/Véhicule modèle export/train/Vehicule-in-forest-1-_jpg.rf.ba94131a3fdebaef82d6b5c06d58341b.jpg
+dataset/Véhicule modèle export/train/Voiture-foret_jpg.rf.4b93f3845c9717ffc7859fdfc3af098f.jpg
+dataset/Véhicule modèle export/train/Voiture-foret_jpg.rf.8cd91ff65296b6d29d1bee4a3464b355.jpg
+dataset/Véhicule modèle export/train/Voiture-foret_jpg.rf.e381a0a601f9bf5cd76e3d1e6d7efb1c.jpg
+dataset/Véhicule modèle export/valid/_annotations.coco.json
+dataset/Véhicule modèle export/valid/Ferrari-F8-Tributo_jpg.rf.c1662f6f47f09cf981be3fd4fc5b32f2.jpg
+dataset/Véhicule modèle export/valid/Ferrari-recherche_jpeg.rf.5478524d69dfcd34e199bcc3675c2e1c.jpg
+dataset/Véhicule modèle export/valid/Ve-hicule-en-fore-t_jpg.rf.1f6a409ad959ca5aed1874a521a7625a.jpg
+dataset/cppe5/cppe5_ann.json
+__pycache__/uri_validator.cpython-311.pyc

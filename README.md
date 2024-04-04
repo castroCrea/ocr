@@ -28,3 +28,8 @@ pip install timm
 processor = DetrImageProcessor.from_pretrained("./models/detr-resnet-50", local_files_only=True)
 model = DetrForObjectDetection.from_pretrained("./models/detr-resnet-50", local_files_only=True)
 ```
+
+
+## COCO
+
+Coco annotation fix the perfect match for dataset after training
