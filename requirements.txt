@@ -8,5 +8,5 @@ roboflow
 datasets
 pycocotools
 torchvision
-urllib
 accelerate
+opencv-python
